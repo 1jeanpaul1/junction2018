@@ -8,7 +8,7 @@ Project for Junction 2018 Hackathon
 
 ### Dev
 * To start the application run the following command:
-   * ```$ ./gradlew build && java -jar build/libs/gs-spring-boot-0.1.0.jar```
+   * ```$ mvn package && java -jar target/gs-spring-boot-0.1.0.jar```
 
 * Test health of app; open a new tab and run the following command
    * ```$ curl localhost:8081/actuator/health```
