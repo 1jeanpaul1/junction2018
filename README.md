@@ -11,5 +11,7 @@ Project for Junction 2018 Hackathon
 ```$ ./gradlew build && java -jar build/libs/gs-spring-boot-0.1.0.jar```
 * Test health of app; open a new tab and run the following command
 ```$ curl localhost:8081/actuator/health```
-   * Should return {"status":"UP"}
-
+   * Should return: {"status":"UP"}
+* Test REST API; open a new tab and run the following command
+```$ curl localhost:8081```
+   * Should return: SUSTAINABILITY!!!
