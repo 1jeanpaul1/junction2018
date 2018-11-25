@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Create a hover effect</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoibW9zYWZhIiwiYSI6ImNqb3Zsd2RpMjFpcDMza3Boc3BkNWQ1dG0ifQ.-5tcRxZ654GGS7F1xS2efA';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mosafa/cjovpt6uu1hc02rs0n49gizcc',
+    zoom: 5,
+    center: [-93.63040131691457,40.44583595930564]
+	
+	
+});
+var hoveredStateId =  null;
+var features =  null;
+
+map.on('load', function () {
+    map.addSource("states", {
+        "type": "geojson",
+        "data": "https://www.mapbox.com/mapbox-gl-js/assets/us_states.geojson"
+    });
+
+    // The feature-state dependent fill-opacity expression will render the hover effect
+    // when a feature's hover state is set to true.
+    map.addLayer({
+        "id": "state-fills",
+        "type": "fill",
+        "source": "states",
+        "layout": {},
+        "paint": {
+            "fill-color": "#2ecc71",
+            "fill-opacity": ["case",
+                ["boolean", ["feature-state", "hover"], false],
+                .5,
+                0
+            ]
+        }
+    });
+
+    map.addLayer({
+        "id": "state-borders",
+        "type": "line",
+        "source": "states",
+        "layout": {},
+        "paint": {
+            "line-color": "#2ecc71",
+            "line-width": 1
+        }
+    });
+
+	var stateIds = [31, 18];
+	for(var i=0;i < stateIds.length;i++){
+	map.setFeatureState({source: 'states', id: stateIds[i]}, { hover: true});
+	}
+
+    // When the user moves their mouse over the state-fill layer, we'll update the
+    // feature state for the feature under the mouse.
+	/*
+    map.on("mousemove", "state-fills", function(e) {
+        if (e.features.length > 0) {
+            if (hoveredStateId) {
+                map.setFeatureState({source: 'states', id: hoveredStateId}, { hover: false});
+            }
+            hoveredStateId = e.features[0].id;
+            map.setFeatureState({source: 'states', id: hoveredStateId}, { hover: true});
+        }
+    });
+
+    // When the mouse leaves the state-fill layer, update the feature state of the
+    // previously hovered feature.
+    map.on("mouseleave", "state-fills", function() {
+        if (hoveredStateId) {
+            map.setFeatureState({source: 'states', id: hoveredStateId}, { hover: false});
+        }
+        hoveredStateId =  null;
+    });*/
+	
+	map.on("mousemove", "state-fills", function(e) {
+		hoveredStateId = e.features[0].id;
+		features = map.queryRenderedFeatures(e.point);
+	});
+	map.on("click", "state-fills", function(e) {
+		if(stateIds.includes(hoveredStateId)){
+			window.open("https://www.google.com",'_blank').focus();
+		}
+	});
+
+	
+});
+</script>
+
+</body>
+</html>
