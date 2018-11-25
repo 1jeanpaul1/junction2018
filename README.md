@@ -20,5 +20,5 @@ Project for Junction 2018 Hackathon
 
 ## Demo
 * To start the demo clone the repository
-* Go to the folder "lastMinuteHack" and find the document titled "indexother.html"
+* Go to the folder "lastMinuteHack" and find the document titled "indexcopy.html"
 * Open the html document in a web browser to start demo
